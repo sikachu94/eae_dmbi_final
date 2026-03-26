@@ -14,57 +14,14 @@ github.com/sikachu94/eae_dmbi_final
 
 ### Overview
 
-The data warehouse for this project follows a **star schema** design. At the centre sits a single fact table — `spf_sales_fact` — which captures every lead and its journey through the solar panel sales funnel. Two dimension tables — `spf_zipcode_dim` and `spf_weather_dim` — extend that central table with geographic and meteorological context via a shared `zipcode` key.
+This file is meant to explain all the different aspects required for delivery for the Data Management for BI final assignment.
+The data warehouse for this project follows a **star schema** design. At the centre sits a single fact table — `spf_sales_fact` — which captures every lead and its journey through the solar panel sales funnel, and two dimension tables — `spf_zipcode_dim` and `spf_weather_dim` — extend that central table with geographic and meteorological context via a shared `zipcode` key.
 
 ---
 
 ### Schema Diagram
 
-```mermaid
-erDiagram
-  spf_sales_fact {
-    BIGINT lead_id PK
-    VARCHAR financing_type
-    VARCHAR current_phase
-    VARCHAR phase_pre_ko
-    VARCHAR is_modified
-    DATE offer_sent_date
-    DATE contract_1_dispatch_date
-    DATE contract_2_dispatch_date
-    DATE contract_1_signature_date
-    DATE contract_2_signature_date
-    DATE visit_date
-    DATE technical_review_date
-    DATE project_validation_date
-    DATE sale_dismissal_date
-    DATE ko_date
-    BIGINT zipcode FK
-    VARCHAR visiting_company
-    VARCHAR ko_reason
-    DOUBLE installation_peak_power_kw
-    DOUBLE installation_price
-    BIGINT n_panels
-    VARCHAR cusomer_type
-  }
-  spf_zipcode_dim {
-    BIGINT zipcode PK
-    DOUBLE zc_latitude
-    DOUBLE zc_longitude
-    VARCHAR autonomous_community
-    VARCHAR autonomous_community_nk
-    VARCHAR province
-  }
-  spf_weather_dim {
-    BIGINT zipcode PK
-    DATE date PK
-    DOUBLE avg_temperature
-    DOUBLE precipitation
-    DOUBLE wind_speed
-    DOUBLE solar_radiation
-  }
-  spf_sales_fact ||--o{ spf_zipcode_dim : "zipcode"
-  spf_sales_fact ||--o{ spf_weather_dim : "zipcode + date"
-```
+![erd](https://imgur.com/KabwrWc)
 
 ---
 
@@ -84,11 +41,11 @@ The raw source data arrives as a flat file (`sale_phases_funnel.csv`) with every
 
 ### Primary / Foreign Key Summary
 
-| Table             | Primary Key       | Foreign Key                                                                 |
-| ----------------- | ----------------- | --------------------------------------------------------------------------- | --- |
-| `spf_sales_fact`  | `lead_id`         | `zipcode` → `spf_sales_fact.zipcode` \ `zipcode` → `spf_sales_fact.zipcode` |
-| `spf_zipcode_dim` | `zipcode`         |                                                                             |
-| `spf_weather_dim` | `(zipcode, date)` |                                                                             | --- |
+| Table             | Primary Key       | Foreign Key                                                                  |
+| :---------------- | :---------------- | :--------------------------------------------------------------------------- |
+| `spf_sales_fact`  | `lead_id`         | `zipcode` → `spf_zipcode_dim.zipcode`, `zipcode` → `spf_weather_dim.zipcode` |
+| `spf_zipcode_dim` | `zipcode`         |                                                                              |
+| `spf_weather_dim` | `(zipcode, date)` |                                                                              |
 
 ### Naming Convention
 
@@ -205,7 +162,7 @@ ORDER BY number_of_ko DESC
 LIMIT 5;
 ```
 
-![alt text](sql/q1.png)
+![Imgur](https://imgur.com/XN8N4ih)
 
 ---
 
@@ -223,7 +180,7 @@ GROUP BY sale_month
 ORDER BY sales_count DESC
 ```
 
-![alt text](sql/q2.png)
+![Imgur](https://imgur.com/TnSLpJr)
 
 ---
 
@@ -240,7 +197,7 @@ GROUP BY financing_type
 ORDER BY financing_type;
 ```
 
-![alt text](sql/q3.png)
+![Imgur](https://imgur.com/ZzO3JOi)
 
 ---
 
@@ -269,7 +226,7 @@ ORDER BY z.province
 
 ```
 
-![alt text](sql/q4.png)
+![Imgur](https://imgur.com/40gBv5r)
 
 ---
 
@@ -287,4 +244,4 @@ HAVING COUNT(CASE WHEN f.current_phase = 'Validated project' THEN 1 END) > 0
 ORDER BY sales_conversion DESC
 ```
 
-![alt text](sql/q5.png)
+![Imgur](https://imgur.com/PDtXSpF)
