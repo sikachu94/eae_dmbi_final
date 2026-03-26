@@ -21,7 +21,7 @@ The data warehouse for this project follows a **star schema** design. At the cen
 
 ### Schema Diagram
 
-![erd](https://imgur.com/KabwrWc)
+![erd](https://imgur.com/KabwrWc.png)
 
 ---
 
@@ -162,7 +162,7 @@ ORDER BY number_of_ko DESC
 LIMIT 5;
 ```
 
-![Imgur](https://imgur.com/XN8N4ih)
+![Imgur](https://imgur.com/XN8N4ih.png)
 
 ---
 
@@ -180,7 +180,7 @@ GROUP BY sale_month
 ORDER BY sales_count DESC
 ```
 
-![Imgur](https://imgur.com/TnSLpJr)
+![Imgur](https://imgur.com/TnSLpJr.png)
 
 ---
 
@@ -197,7 +197,7 @@ GROUP BY financing_type
 ORDER BY financing_type;
 ```
 
-![Imgur](https://imgur.com/ZzO3JOi)
+![Imgur](https://imgur.com/ZzO3JOi.png)
 
 ---
 
@@ -226,7 +226,7 @@ ORDER BY z.province
 
 ```
 
-![Imgur](https://imgur.com/40gBv5r)
+![Imgur](https://imgur.com/40gBv5r.png)
 
 ---
 
@@ -244,4 +244,4 @@ HAVING COUNT(CASE WHEN f.current_phase = 'Validated project' THEN 1 END) > 0
 ORDER BY sales_conversion DESC
 ```
 
-![Imgur](https://imgur.com/PDtXSpF)
+![Imgur](https://imgur.com/PDtXSpF.png)
