@@ -163,4 +163,18 @@ The only table specific DQ check is for the nulls in the primary key couple of d
 
 ---
 
-A quick explanation of the indexes chosen for this data model and pipeline.
+Indexes were chosen based on the columns actually used in the business queries. No speculative indexing was added. This is a business-first approach rather than deeply technical one.
+
+### `spf_sales_fact`
+
+`zipcode` - JOIN key to both dimension tables across multiple queries
+`financing_type` - Filtered and grouped in the cash sales and average price queries
+`contract_1_signature_date` - Grouped by month to find the top sales month
+
+### `spf_zipcode_dim`
+
+`province` - Grouped by in the avg power / price / leads per province query
+
+### `spf_weather_dim`
+
+No additional indexes needed. The composite primary key `(zipcode, date)` already covers it all indexing needs.
