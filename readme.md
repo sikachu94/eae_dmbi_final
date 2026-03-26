@@ -1,4 +1,4 @@
-![alt](https://www.eae.es/sites/eae.es/themes/custom/sbx_theme/logo.webp "eae")
+![alt text](https://www.eae.es/sites/eae.es/themes/custom/sbx_theme/logo.webp)
 
 # Big Data & Analytics '26
 
