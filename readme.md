@@ -167,9 +167,9 @@ Indexes were chosen based on the columns actually used in the business queries. 
 
 ### `spf_sales_fact`
 
-`zipcode` - JOIN key to both dimension tables across multiple queries
-`financing_type` - Filtered and grouped in the cash sales and average price queries
-`contract_1_signature_date` - Grouped by month to find the top sales month
+- `zipcode` - JOIN key to both dimension tables across multiple queries
+- `financing_type` - Filtered and grouped in the cash sales and average price queries
+- `contract_1_signature_date` - Grouped by month to find the top sales month
 
 ### `spf_zipcode_dim`
 
