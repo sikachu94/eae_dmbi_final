@@ -63,7 +63,7 @@ erDiagram
     DOUBLE solar_radiation
   }
   spf_sales_fact ||--o{ spf_zipcode_dim : "zipcode"
-  spf_sales_fact ||--o{ spf_weather_dim : "zipcode"
+  spf_sales_fact ||--o{ spf_weather_dim : "zipcode + date"
 ```
 
 ---
