@@ -178,3 +178,110 @@ Indexes were chosen based on the columns actually used in the business queries. 
 ### `spf_weather_dim`
 
 No additional indexes needed. The composite primary key `(zipcode, date)` already covers it all indexing needs.
+
+## SQL Queries
+
+### Q1
+
+Which are the top 5 KO reasons, and which percentage of total KO
+represent each one?
+
+```
+SELECT
+    ko_reason,
+    COUNT(*) AS number_of_ko,
+    ROUND(COUNT(*) * 100.0 / (
+        SELECT COUNT(*)
+        FROM   spf_sales_fact
+        WHERE  ko_reason IS NOT NULL
+          AND  ko_reason <> ''
+    ), 2) AS pct_of_total_ko
+FROM  spf_sales_fact
+WHERE ko_reason IS NOT NULL
+  AND ko_reason <> ''
+GROUP BY ko_reason
+ORDER BY number_of_ko DESC
+LIMIT 5;
+```
+
+![alt text](sql/q1.png)
+
+---
+
+### Q2
+
+```
+SELECT
+    DATE_FORMAT(project_validation_date, '%m-%Y') AS sale_month,
+    COUNT(*) AS sales_count
+FROM  spf_sales_fact
+WHERE financing_type = 'cash'
+  AND current_phase = 'Validated project'
+  AND project_validation_date IS NOT NULL
+GROUP BY sale_month
+ORDER BY sales_count DESC
+```
+
+![alt text](sql/q2.png)
+
+---
+
+### Q3
+
+```
+SELECT
+    financing_type,
+    ROUND(AVG(installation_price), 2)  AS avg_installation_price
+FROM  spf_sales_fact
+WHERE cusomer_type = 'Individual household'
+  AND financing_type IS NOT NULL
+GROUP BY financing_type
+ORDER BY financing_type;
+```
+
+![alt text](sql/q3.png)
+
+---
+
+### Q4
+
+```
+WITH zipcodes_leads_over_5 AS (
+    SELECT
+        zipcode,
+        COUNT(*) AS n_leads_in_zip
+    FROM  spf_sales_fact
+    GROUP BY zipcode
+    HAVING COUNT(*) > 5
+)
+
+SELECT
+    z.province,
+    ROUND(AVG(f.installation_peak_power_kw), 2) AS avg_peak_power_kw,
+    ROUND(AVG(f.installation_price), 2) AS avg_installation_price,
+    COUNT(f.lead_id) AS n_leads
+FROM spf_sales_fact f
+INNER JOIN zipcodes_leads_over_5  zl ON f.zipcode = zl.zipcode
+INNER JOIN spf_zipcode_dim z  ON f.zipcode = z.zipcode
+GROUP BY z.province
+ORDER BY z.province
+
+```
+
+![alt text](sql/q4.png)
+
+### Q5
+
+```
+SELECT
+    f.zipcode,
+    ROUND(COUNT(CASE WHEN f.current_phase = 'Validated project' OR f.project_validation_date is not null THEN 1 END) / COUNT(*), 2) AS sales_conversion,
+    ROUND(AVG(w.temperature), 2) AS avg_temperature
+FROM spf_sales_fact f
+LEFT JOIN  spf_weather_dim w ON f.zipcode = w.zipcode and f.project_validation_date = w.date
+GROUP BY f.zipcode
+HAVING COUNT(CASE WHEN f.current_phase = 'Validated project' THEN 1 END) > 0
+ORDER BY sales_conversion DESC
+```
+
+![alt text](sql/q5.png)
