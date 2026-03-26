@@ -271,6 +271,8 @@ ORDER BY z.province
 
 ![alt text](sql/q4.png)
 
+---
+
 ### Q5
 
 ```
