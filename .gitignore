@@ -1,6 +1,0 @@
-*.yml
-*.pdf
-*.zip
-*.ipynb
-*/__pycache__/
-data/meteo_eae.csv
