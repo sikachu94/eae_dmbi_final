@@ -1,4 +1,4 @@
-![alt text](https://www.eae.es/sites/eae.es/themes/custom/sbx_theme/logo.webp)
+![alt text](https://keystoneacademic-res.cloudinary.com/image/upload/c_pad,w_3840,h_1280/dpr_auto/f_auto/q_auto/v1/element/24/244366_AF_EAEBSB_LOGO_RGB_ROJO.png)
 
 # Big Data & Analytics '26
 
