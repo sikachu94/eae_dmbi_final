@@ -2,5 +2,5 @@
 *.pdf
 *.zip
 *.ipynb
-__pycache__
+__pycache__/
 data/meteo_eae.csv
